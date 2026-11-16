@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
-RULES_FILE = PROJECT_DIR / "config" / "rules.json"
+from main.paths import CONFIG_DIR
+RULES_FILE = CONFIG_DIR / "rules.json"
 
 
 def get_saved_wallpaper(event, value): # находит сохранённый фон для события

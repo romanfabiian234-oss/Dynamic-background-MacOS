@@ -56,7 +56,8 @@ except (ImportError, OSError):
 # Настройки и правила запросов — меняйте их здесь.
 ENGINE_VERSION = "1.1.0"
 PROJECT_DIR = Path(__file__).resolve().parent
-DEFAULT_DIRECTORY = PROJECT_DIR / "backgrounds"
+from main.paths import BACKGROUND_DIR
+DEFAULT_DIRECTORY = BACKGROUND_DIR
 PEXELS_URL = "https://www.pexels.com"
 PEXELS_WALLPAPER_HELP = "https://help.pexels.com/hc/en-us/articles/4405588861721"
 PILLOW_HELP = "Pillow is required. Install: python3 -m pip install Pillow"
