@@ -1,0 +1,16 @@
+{
+    "auto_mode": true,
+    "style": "natural",
+    "provider": "auto",
+    "cache_limit": 50,
+    "history_limit": 10,
+    "check_interval": 60,
+    "retry_interval": 300,
+    "request_timeout": 10,
+    "download_deadline": 30,
+    "search_cache_hours": 24,
+    "screen_width": 0,
+    "screen_height": 0,
+    "pexels_auto_enabled": true,
+    "debug": false
+}
