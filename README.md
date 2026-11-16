@@ -57,6 +57,7 @@ To update, replace the source folder and rerun the launcher. After a requirement
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python -B -m unittest discover -s tests -p 'test_*.py'
+.venv/bin/python -B tests/verify_startup.py
 ```
 
 Tests use temporary data and mock wallpaper/network operations. A passing test suite does not replace testing a real wallpaper change on your macOS version. The season calculation follows Northern Hemisphere calendar seasons.

@@ -18,3 +18,4 @@ jobs:
       - run: python -m compileall -q main main_start.py
       - run: bash -n START.command
       - run: python -B -m unittest discover -s tests -p 'test_*.py'
+      - run: python -B tests/verify_startup.py

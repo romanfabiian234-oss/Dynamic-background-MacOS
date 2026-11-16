@@ -25,11 +25,12 @@ def run(name, args, text='', expected=0, contains=None):
     print('PASS:', name)
 
 
-for path in [*sorted((PROJECT / 'main').glob('*.py')), PROJECT / 'main_start.py']:
+source_files = [*sorted((PROJECT / 'main').glob('*.py')), PROJECT / 'main_start.py']
+for path in source_files:
     source = path.read_text()
     ast.parse(source, filename=str(path), feature_version=(3, 10))
     compile(source, str(path), 'exec')
-checks.append('Syntax: 9 files; Python 3.10 grammar')
+checks.append(f'Syntax: {len(source_files)} files; Python 3.10 grammar')
 
 modules = ['sensors', 'activity_logs', 'rules', 'actions', 'background_engine', 'connector', 'settings']
 for first in modules:
@@ -51,6 +52,7 @@ assert set(pathlib.Path('.').rglob('*')) == before
 '''])
 
 with tempfile.TemporaryDirectory(prefix='dynamic-startup-') as directory:
+    ENV['DYNAMIC_BACKGROUND_DATA_DIR'] = str(Path(directory) / 'user-data')
     data = str(Path(directory) / 'backgrounds')
     for mode, command in [('package', ['-m', 'main.background_engine']),
                           ('script', ['main/background_engine.py'])]:
@@ -90,15 +92,17 @@ run('connector module import entry', ['-m', 'main.connector'])
 run('connector direct entry', ['main/connector.py'])
 run('main_start connects sensor/rules/actions (controlled)', ['-c', '''
 import runpy
+from types import SimpleNamespace
 from unittest.mock import patch
 import main.connector as connector
 calls = []
 with patch.object(connector, 'start_system_information', side_effect=lambda: calls.append('sensors')), \\
      patch.object(connector, 'start_rules_informaton', side_effect=lambda: calls.append('rules')), \\
-     patch.object(connector, 'start_actions', side_effect=lambda: calls.append('actions')):
+     patch.object(connector, 'start_actions', side_effect=lambda: calls.append('actions')), \
+     patch('threading.Thread', side_effect=lambda target, **kwargs: SimpleNamespace(start=target)):
     runpy.run_path('main_start.py', run_name='__main__')
 assert calls == ['sensors', 'rules', 'actions'], calls
-'''])
+'''], text='6\n7\n')
 run('sensor and rule entry points schedule workers (controlled)', ['-c', '''
 import runpy
 from unittest.mock import patch
