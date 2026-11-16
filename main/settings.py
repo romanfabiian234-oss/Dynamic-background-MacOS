@@ -17,7 +17,7 @@ from main.background_engine import (
 )
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
-CONFIG_DIR = PROJECT_DIR / "config"
+from main.paths import CONFIG_DIR
 CONFIG_FILE = CONFIG_DIR / "rules.json"
 
 
